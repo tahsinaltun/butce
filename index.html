@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Öğrenci Bütçe Takip</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="app-container">
+    <header class="header">
+      <div class="header-content">
+        <div class="logo">
+          <span class="logo-icon">💰</span>
+          <h1>Öğrenci Bütçe</h1>
+        </div>
+        <div class="header-actions">
+          <button id="themeToggle" class="theme-toggle" title="Tema Değiştir">🌙</button>
+        </div>
+      </div>
+    </header>
+
+    <main class="main-content">
+      <section class="summary-cards">
+        <div class="card balance-card">
+          <div class="card-icon">💎</div>
+          <div class="card-info">
+            <span class="card-label">Toplam Bakiye</span>
+            <span class="card-value" id="totalBalance">₺0,00</span>
+          </div>
+        </div>
+        <div class="card income-card">
+          <div class="card-icon">📈</div>
+          <div class="card-info">
+            <span class="card-label">Toplam Gelir</span>
+            <span class="card-value income" id="totalIncome">₺0,00</span>
+          </div>
+        </div>
+        <div class="card expense-card">
+          <div class="card-icon">📉</div>
+          <div class="card-info">
+            <span class="card-label">Toplam Gider</span>
+            <span class="card-value expense" id="totalExpense">₺0,00</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="content-grid">
+        <div class="left-panel">
+          <div class="form-card">
+            <h2 class="form-title">Yeni İşlem Ekle</h2>
+            <form id="transactionForm">
+              <div class="form-group">
+                <label for="type">İşlem Türü</label>
+                <div class="toggle-group">
+                  <button type="button" class="toggle-btn active" data-type="expense">Gider</button>
+                  <button type="button" class="toggle-btn" data-type="income">Gelir</button>
+                </div>
+                <input type="hidden" id="type" value="expense">
+              </div>
+              <div class="form-group">
+                <label for="description">Açıklama</label>
+                <input type="text" id="description" placeholder="Örn: Yemek, ulaşım..." required>
+              </div>
+              <div class="form-group">
+                <label for="amount">Tutar (₺)</label>
+                <input type="number" id="amount" placeholder="0.00" step="0.01" min="0.01" required>
+              </div>
+              <div class="form-group">
+                <label for="category">Kategori</label>
+                <select id="category" required>
+                  <option value="">Kategori Seçin</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="date">Tarih</label>
+                <input type="date" id="date" required>
+              </div>
+              <button type="submit" class="submit-btn">
+                <span class="btn-icon">+</span>
+                İşlem Ekle
+              </button>
+            </form>
+          </div>
+
+          <div class="chart-card">
+            <h2 class="chart-title">Gider Dağılımı</h2>
+            <div class="chart-container">
+              <canvas id="expenseChart"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <div class="right-panel">
+          <div class="transactions-card">
+            <div class="transactions-header">
+              <h2 class="transactions-title">İşlem Geçmişi</h2>
+              <div class="filter-group">
+                <select id="filterCategory">
+                  <option value="all">Tüm Kategoriler</option>
+                </select>
+                <select id="filterMonth">
+                  <option value="all">Tüm Aylar</option>
+                </select>
+              </div>
+            </div>
+            <div class="transactions-list" id="transactionsList">
+              <div class="empty-state">
+                <span class="empty-icon">📝</span>
+                <p>Henüz işlem yok</p>
+                <span class="empty-sub">İlk işleminizi ekleyin!</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="budget-goals-card">
+            <h2 class="goals-title">Bütçe Hedefleri</h2>
+            <div id="budgetGoals">
+              <div class="empty-state small">
+                <p>Kategori bazlı bütçe hedefi ekleyin</p>
+              </div>
+            </div>
+            <button id="addGoalBtn" class="add-goal-btn">
+              <span>+</span> Hedef Ekle
+            </button>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <div id="goalModal" class="modal hidden">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3>Bütçe Hedefi Ekle</h3>
+          <button id="closeModal" class="modal-close">&times;</button>
+        </div>
+        <form id="goalForm">
+          <div class="form-group">
+            <label for="goalCategory">Kategori</label>
+            <select id="goalCategory" required></select>
+          </div>
+          <div class="form-group">
+            <label for="goalAmount">Aylık Hedef Tutar (₺)</label>
+            <input type="number" id="goalAmount" placeholder="0.00" step="0.01" min="1" required>
+          </div>
+          <button type="submit" class="submit-btn">Hedefi Kaydet</button>
+        </form>
+      </div>
+    </div>
+
+    <footer class="footer">
+      <p>Öğrenci Bütçe Takip &copy; 2026</p>
+    </footer>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
